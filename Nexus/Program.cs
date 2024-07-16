@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Nexus.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<NexusContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -20,7 +26,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-	pattern: "{controller=Admin}/{action=Index}/{id?}");
+	name: "default",
+    pattern: "{controller=Admin}/{action=Index}/{id?}");
 
 app.Run();
